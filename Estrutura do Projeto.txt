@@ -1,0 +1,10 @@
+ctf-writeups/
+│
+├── index.html          # Arquivo principal da página
+├── styles/             # Pasta para armazenar arquivos CSS
+│   └── style.css       # Arquivo de estilos personalizados
+├── scripts/            # Pasta para armazenar arquivos JavaScript
+│   └── script.js       # Arquivo de scripts personalizados
+├── assets/             # Pasta para imagens, ícones e outros recursos
+│   └── logo.png        # Exemplo de imagem (opcional)
+└── README.md           # Documentação do projeto
